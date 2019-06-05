@@ -227,6 +227,27 @@ export class Repository implements Disposable {
         }
     }
 
+    @gate()
+    @log()
+    async checkout(ref: string, options: { progress?: boolean } = {}) {
+        const { progress } = { progress: true, ...options };
+        if (!progress) return this.checkoutCore(ref);
+
+        return void (await window.withProgress(
+            {
+                location: ProgressLocation.Notification,
+                title: `Checking out ${this.formattedName} to ${ref}...`,
+                cancellable: false
+            },
+            () => this.checkoutCore(ref)
+        ));
+    }
+
+    private async checkoutCore(ref: string, options: { remote?: string } = {}) {
+        void (await Container.git.checkout(this.path, ref));
+
+        this.fireChange(RepositoryChange.Repository);
+    }
     containsUri(uri: Uri) {
         if (uri instanceof GitUri) {
             uri = uri.repoPath !== undefined ? GitUri.file(uri.repoPath) : uri.documentUri();

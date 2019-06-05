@@ -4,7 +4,7 @@ import { Commands } from '../commands';
 import { configuration } from '../configuration';
 import { GlyphChars } from '../constants';
 import { Container } from '../container';
-import { GitLog, GitLogCommit, GitRepoSearchBy, GitStashCommit, GitUri } from '../git/gitService';
+import { GitLog, GitLogCommit, GitRepoSearchBy, GitUri } from '../git/gitService';
 import { KeyMapping, Keys } from '../keyboard';
 import { Strings } from '../system';
 import { ReferencesQuickPick, ReferencesQuickPickItem } from './referencesQuickPick';
@@ -88,36 +88,6 @@ export class CommandQuickPickItem implements QuickPickItem {
 
     onDidPressKey(key: Keys): Thenable<{} | undefined> {
         return this.execute();
-    }
-}
-
-export class CommitQuickPickItem<T extends GitLogCommit = GitLogCommit> implements QuickPickItem {
-    label: string;
-    description: string;
-    detail: string;
-
-    constructor(public readonly commit: T) {
-        const message = commit.getShortMessage();
-        if (GitStashCommit.is(commit)) {
-            this.label = message;
-            this.description = '';
-            this.detail = `${GlyphChars.Space} ${commit.stashName || commit.shortSha} ${Strings.pad(
-                GlyphChars.Dot,
-                1,
-                1
-            )} ${commit.formattedDate} ${Strings.pad(GlyphChars.Dot, 1, 1)} ${commit.getFormattedDiffStatus({
-                compact: true
-            })}`;
-        }
-        else {
-            this.label = message;
-            this.description = `${Strings.pad('$(git-commit)', 1, 1)} ${commit.shortSha}`;
-            this.detail = `${GlyphChars.Space} ${commit.author}, ${commit.formattedDate}${
-                commit.isFile
-                    ? ''
-                    : ` ${Strings.pad(GlyphChars.Dot, 1, 1)} ${commit.getFormattedDiffStatus({ compact: true })}`
-            }`;
-        }
     }
 }
 

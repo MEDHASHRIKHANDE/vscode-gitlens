@@ -6,12 +6,8 @@ import { Container } from '../container';
 import { GitStash, GitStashCommit } from '../git/gitService';
 import { KeyNoopCommand } from '../keyboard';
 import { Iterables, Strings } from '../system';
-import {
-    CommandQuickPickItem,
-    CommitQuickPickItem,
-    getQuickPickIgnoreFocusOut,
-    showQuickPickProgress
-} from './commonQuickPicks';
+import { CommandQuickPickItem, getQuickPickIgnoreFocusOut, showQuickPickProgress } from './commonQuickPicks';
+import { CommitQuickPickItem } from './gitQuickPicks';
 
 export class StashListQuickPick {
     static showProgress(mode: 'list' | 'apply') {

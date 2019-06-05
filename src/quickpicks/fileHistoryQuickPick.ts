@@ -9,12 +9,12 @@ import { KeyNoopCommand } from '../keyboard';
 import { Iterables, Strings } from '../system';
 import {
     CommandQuickPickItem,
-    CommitQuickPickItem,
     getQuickPickIgnoreFocusOut,
     ShowFileHistoryFromQuickPickItem,
     showQuickPickProgress
 } from './commonQuickPicks';
 import { OpenRemotesCommandQuickPickItem } from './remotesQuickPick';
+import { CommitQuickPickItem } from './gitQuickPicks';
 
 export class FileHistoryQuickPick {
     static showProgress(placeHolder: string) {

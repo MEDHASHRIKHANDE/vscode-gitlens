@@ -2074,6 +2074,11 @@
                 "category": "GitLens"
             },
             {
+                "command": "gitlens.quickGitCommands",
+                "title": "Quick Git Commands",
+                "category": "GitLens"
+            },
+            {
                 "command": "gitlens.switchMode",
                 "title": "Switch Mode",
                 "category": "GitLens"
@@ -3130,6 +3135,10 @@
                 {
                     "command": "gitlens.toggleCodeLens",
                     "when": "gitlens:enabled && gitlens:canToggleCodeLens"
+                },
+                {
+                    "command": "gitlens.quickGitCommands",
+                    "when": "gitlens:enabled"
                 },
                 {
                     "command": "gitlens.switchMode",

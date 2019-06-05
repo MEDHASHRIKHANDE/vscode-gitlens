@@ -583,6 +583,19 @@ export class GitService implements Disposable {
                 editor !== undefined ? `TextEditor(${Logger.toLoggable(editor.document.uri)})` : 'undefined'
         }
     })
+    async getActiveRepository(editor?: TextEditor): Promise<Repository | undefined> {
+        const repoPath = await this.getActiveRepoPath(editor);
+        if (repoPath === undefined) return undefined;
+
+        return this.getRepository(repoPath);
+    }
+
+    @log({
+        args: {
+            0: (editor: TextEditor) =>
+                editor !== undefined ? `TextEditor(${Logger.toLoggable(editor.document.uri)})` : 'undefined'
+        }
+    })
     async getActiveRepoPath(editor?: TextEditor): Promise<string | undefined> {
         editor = editor || window.activeTextEditor;
 

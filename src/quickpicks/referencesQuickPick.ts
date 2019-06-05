@@ -1,100 +1,11 @@
 'use strict';
-import { CancellationToken, CancellationTokenSource, QuickPickItem, window } from 'vscode';
+import { CancellationToken, CancellationTokenSource, window } from 'vscode';
 import { GlyphChars } from '../constants';
 import { Container } from '../container';
-import { GitBranch, GitReference, GitService, GitTag } from '../git/gitService';
+import { GitBranch, GitTag } from '../git/gitService';
 import { Functions } from '../system';
 import { CommandQuickPickItem, getQuickPickIgnoreFocusOut } from './commonQuickPicks';
-
-export class RefQuickPickItem implements QuickPickItem {
-    label: string;
-    description: string;
-    detail: string | undefined;
-
-    constructor(public readonly ref: string, checked?: boolean) {
-        this.label = `${checked ? `$(check)${GlyphChars.Space}` : GlyphChars.Space.repeat(4)} ${GitService.shortenSha(
-            ref
-        )}`;
-        this.description = '';
-    }
-
-    get current() {
-        return false;
-    }
-
-    get item() {
-        const ref: GitReference = { name: this.ref, ref: this.ref };
-        return ref;
-    }
-
-    get remote() {
-        return false;
-    }
-}
-
-export class BranchQuickPickItem implements QuickPickItem {
-    label: string;
-    description: string;
-    detail: string | undefined;
-
-    constructor(public readonly branch: GitBranch, showCheckmarks: boolean, checked: boolean | undefined) {
-        checked = showCheckmarks && (checked || (checked === undefined && branch.current));
-        this.label = `${
-            checked ? `$(check)${GlyphChars.Space.repeat(2)}` : showCheckmarks ? GlyphChars.Space.repeat(6) : ''
-        }${branch.name}`;
-        this.description = branch.remote
-            ? `${GlyphChars.Space.repeat(2)} remote branch`
-            : branch.current
-            ? 'current branch'
-            : '';
-    }
-
-    get current() {
-        return this.branch.current;
-    }
-
-    get item() {
-        return this.branch;
-    }
-
-    get ref() {
-        return this.branch.name;
-    }
-
-    get remote() {
-        return this.branch.remote;
-    }
-}
-
-export class TagQuickPickItem implements QuickPickItem {
-    label: string;
-    description: string;
-    detail: string | undefined;
-
-    constructor(public readonly tag: GitTag, showCheckmarks: boolean, checked: boolean) {
-        checked = showCheckmarks && checked;
-        this.label = `${
-            checked ? `$(check)${GlyphChars.Space.repeat(2)}` : showCheckmarks ? GlyphChars.Space.repeat(6) : ''
-        }${tag.name}`;
-        this.description = `${GlyphChars.Space.repeat(2)} tag`;
-    }
-
-    get current() {
-        return false;
-    }
-
-    get item() {
-        return this.tag;
-    }
-
-    get ref() {
-        return this.tag.name;
-    }
-
-    get remote() {
-        return false;
-    }
-}
+import { BranchQuickPickItem, RefQuickPickItem, TagQuickPickItem } from './gitQuickPicks';
 
 export type ReferencesQuickPickItem = BranchQuickPickItem | TagQuickPickItem | RefQuickPickItem;
 

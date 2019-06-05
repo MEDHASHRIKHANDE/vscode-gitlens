@@ -6,11 +6,11 @@ import { KeyNoopCommand } from '../keyboard';
 import { Iterables } from '../system';
 import {
     CommandQuickPickItem,
-    CommitQuickPickItem,
     getQuickPickIgnoreFocusOut,
     MessageQuickPickItem,
     showQuickPickProgress
 } from './commonQuickPicks';
+import { CommitQuickPickItem } from './gitQuickPicks';
 
 export class CommitsQuickPick {
     static showProgress(message: string) {
